@@ -5,21 +5,23 @@
     android:id="@+id/img_item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:background="#FFFFFF"
     android:padding="100dp"
     android:paddingEnd="100dp"
     app:cardCornerRadius="32dp"
     app:cardElevation="10dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false">
+    app:cardUseCompatPadding="false"
+
+    >
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="243dp"
         android:background="#FFFFFF"
-
-        android:padding="10dp">
+        android:orientation="vertical"
+        android:padding="20dp">
 
         <ImageView
             android:id="@+id/iv_image"

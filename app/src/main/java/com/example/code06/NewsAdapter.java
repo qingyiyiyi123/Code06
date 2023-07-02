@@ -8,56 +8,66 @@ package com.example.code06;
     import android.widget.ImageView;
     import android.widget.TextView;
 
+    import androidx.recyclerview.widget.RecyclerView;
+
     import com.example.code06.R;
 
     import java.util.List;
 
-public class NewsAdapter extends ArrayAdapter <News> {
+ public class NewsAdapter
+ extends RecyclerView.Adapter <NewsAdapter.ViewHolder > {
 
- private List<News> mNewsData;
- private Context mContext;
+     private List<News> mNewsData;
+     private Context mContext;
+     private int resourceId;
 
- private int resourceId;
+     public NewsAdapter(Context context,
+                        int resourceId, List<News> data) {
+         this.mContext = context;
+         this.mNewsData = data;
+         this.resourceId = resourceId;
+     }
 
- public NewsAdapter(Context context , int resourceId , List<News> data) {
-    super(context , resourceId , data);
-    this.mContext = context;
-    this.mNewsData = data;
-    this.resourceId = resourceId;
- }
+     @Override
+     public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                          int viewType) {
+         View view = LayoutInflater.from(mContext)
+                 .inflate(resourceId, parent, false);
 
-@Override
-public View getView(int position , View convertView , ViewGroup parent) {
-     News news = getItem(position);
-     View view ;
 
-     ViewHolder viewHolder;
+         ViewHolder holder = new ViewHolder(view);
+         return holder;
+     }
 
-     if (convertView == null) {
-         view = LayoutInflater.from(getContext())
-         .inflate(resourceId , parent , false);
+     @Override
+     public void onBindViewHolder(ViewHolder holder,
+                                  int position) {
+         News news = mNewsData.get(position);
+         holder.tvTitle.setText(news.getTitle());
+         holder.tvAuthor.setText(news.getAuthor());
 
-         viewHolder = new ViewHolder();
-
-         viewHolder.tvTitle = view.findViewById(R.id.tv_title);
-         viewHolder.tvAuthor = view.findViewById(R.id.tv_subtitle);
-         viewHolder.ivImage = view.findViewById(R.id.iv_image);
-
-         view.setTag(viewHolder);
-         } else {
-         view = convertView;
-         viewHolder = (ViewHolder) view.getTag();
+         if (news.getImageId() != -1) {
+             holder.ivImage.setImageResource(news.getImageId());
          }
+     }
 
-     viewHolder.tvTitle.setText(news.getTitle());
-     viewHolder.tvAuthor.setText(news.getAuthor());
-     viewHolder.ivImage.setImageResource(news.getImageId());
+     @Override
+     public int getItemCount() {
+         return mNewsData.size();
+     }
 
-     return view;
+     static class ViewHolder extends RecyclerView.ViewHolder {
+         TextView tvTitle;
+         TextView tvAuthor;
+         ImageView ivImage;
+
+         public ViewHolder(View view) {
+             super(view);
+
+             tvTitle = view.findViewById(R.id.tv_title);
+             tvAuthor = view.findViewById(R.id.tv_subtitle);
+             ivImage = view.findViewById(R.id.iv_image);
+         }
+     }
  }
- class ViewHolder{
-     TextView tvTitle;
-     TextView tvAuthor;
-     ImageView ivImage;
- }
- }
+

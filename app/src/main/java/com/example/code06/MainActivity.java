@@ -1,6 +1,8 @@
 package com.example.code06;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -22,20 +24,24 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String NEWS_ID = "news_id";
     private List<News> newsList = new ArrayList<>();
+    private NewsAdapter newsAdapter = null;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        recyclerView = findViewById(R.id.lv_news_list);
         initData();
 
-        NewsAdapter newsAdapter = new NewsAdapter(MainActivity.this,
-                R.layout.list_item, newsList);
-
-        ListView lvNewsList = findViewById(R.id.lv_news_list);
-
-        lvNewsList.setAdapter(newsAdapter);
+         newsAdapter = new NewsAdapter(
+                 MainActivity.this ,
+                 R.layout.list_item ,
+                 newsList
+                 );
+         LinearLayoutManager llm = new LinearLayoutManager(this);
+         recyclerView.setLayoutManager(llm);
+         recyclerView.setAdapter(newsAdapter);
     }
 
     private void initData() {
