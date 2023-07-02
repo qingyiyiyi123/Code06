@@ -8,66 +8,38 @@ package com.example.code06;
     import android.widget.ImageView;
     import android.widget.TextView;
 
-    import androidx.recyclerview.widget.RecyclerView;
-
     import com.example.code06.R;
 
     import java.util.List;
 
- public class NewsAdapter
- extends RecyclerView.Adapter <NewsAdapter.ViewHolder > {
+public class NewsAdapter extends ArrayAdapter <News> {
 
-     private List<News> mNewsData;
-     private Context mContext;
-     private int resourceId;
+ private List<News> mNewsData;
+ private Context mContext;
 
-     public NewsAdapter(Context context,
-                        int resourceId, List<News> data) {
-         this.mContext = context;
-         this.mNewsData = data;
-         this.resourceId = resourceId;
-     }
+ private int resourceId;
 
-     @Override
-     public ViewHolder onCreateViewHolder(ViewGroup parent,
-                                          int viewType) {
-         View view = LayoutInflater.from(mContext)
-                 .inflate(resourceId, parent, false);
-
-
-         ViewHolder holder = new ViewHolder(view);
-         return holder;
-     }
-
-     @Override
-     public void onBindViewHolder(ViewHolder holder,
-                                  int position) {
-         News news = mNewsData.get(position);
-         holder.tvTitle.setText(news.getTitle());
-         holder.tvAuthor.setText(news.getAuthor());
-
-         if (news.getImageId() != -1) {
-             holder.ivImage.setImageResource(news.getImageId());
-         }
-     }
-
-     @Override
-     public int getItemCount() {
-         return mNewsData.size();
-     }
-
-     static class ViewHolder extends RecyclerView.ViewHolder {
-         TextView tvTitle;
-         TextView tvAuthor;
-         ImageView ivImage;
-
-         public ViewHolder(View view) {
-             super(view);
-
-             tvTitle = view.findViewById(R.id.tv_title);
-             tvAuthor = view.findViewById(R.id.tv_subtitle);
-             ivImage = view.findViewById(R.id.iv_image);
-         }
-     }
+ public NewsAdapter(Context context , int resourceId , List<News> data) {
+    super(context , resourceId , data);
+    this.mContext = context;
+    this.mNewsData = data;
+    this.resourceId = resourceId;
  }
 
+@Override
+public View getView(int position , View convertView , ViewGroup parent) {
+ News news = getItem(position);
+ View view ;
+
+ view = LayoutInflater.from(getContext()).inflate(resourceId , parent , false);
+
+ TextView tvTitle = view.findViewById(R.id.tv_title);
+ TextView tvAuthor = view.findViewById(R.id.tv_subtitle);
+ ImageView ivImage = view.findViewById(R.id.iv_image);
+
+ tvTitle.setText(news.getTitle());
+ tvAuthor.setText(news.getAuthor());
+ ivImage.setImageResource(news.getImageId());
+ return view;
+ }
+ }
